@@ -22,6 +22,6 @@ function* peopleSaga() {
     }
 }
 
-export function* rootSagas() {
+export default function* rootSagas() {
     yield fork(peopleSaga);
 }
