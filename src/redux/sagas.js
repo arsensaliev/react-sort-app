@@ -10,11 +10,9 @@ const peopleRequest = () => fetch(database).then((res) => res.json());
 
 function* peopleSaga() {
     while (true) {
-        const action = yield take(getPeopleRequest);
-        console.log(action);
+        yield take(getPeopleRequest);
         try {
             const result = yield call(peopleRequest);
-            console.log(result);
             yield put(getPeopleSuccess(result));
         } catch (error) {
             yield put(getPeopleFailure(error));
