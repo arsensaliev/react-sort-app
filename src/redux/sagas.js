@@ -1,4 +1,4 @@
-import {} from "redux-saga/effects";
+import { fork, put, take, call } from "redux-saga/effects";
 import {
     getPeopleRequest,
     getPeopleSuccess,
@@ -6,6 +6,22 @@ import {
 } from "./actions";
 import { database } from "../config/config";
 
-const peopleRequest = (data) => fetch(database).then((res) => res.json());
+const peopleRequest = () => fetch(database).then((res) => res.json());
 
-export function* rootSagas() {}
+function* peopleSaga() {
+    while (true) {
+        const action = yield take(getPeopleRequest);
+        console.log(action);
+        try {
+            const result = yield call(peopleRequest);
+            console.log(result);
+            yield put(getPeopleSuccess(result));
+        } catch (error) {
+            yield put(getPeopleFailure(error));
+        }
+    }
+}
+
+export function* rootSagas() {
+    yield fork(peopleSaga);
+}
