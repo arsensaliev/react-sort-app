@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 
 function People(props) {
     const people = useSelector((state) => state.people);
-
+    
     return (
         <ul className="people">
             {people.map((item) => (
